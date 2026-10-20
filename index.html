@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共享共用记账账本 | 首页</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-danger: #ef4444;
+            --color-success: #16a34a;
+            --color-success-bg: #dcfce7;
+            --color-warning: #dc2626;
+            --color-warning-bg: #fee2e2;
+            --color-info: #0369a1;
+            --color-info-bg: #e0f2fe;
+            --color-blue-bg: #dbeafe;
+            --color-text-main: #1f2937;
+            --color-text-secondary: #4b5563;
+            --color-text-light: #6b7280;
+            --color-border: #e5e7eb;
+            --color-bg-page: #f5f7fa;
+            --color-bg-card: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 2px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition-base: all 0.24s ease;
+            --container-max: 1040px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--color-text-main);
+            background-color: var(--color-bg-page);
+            line-height: 1.6;
+        }
+        img {max-width:100%; display:block;}
+        button, input, select, textarea {
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        button:focus-visible,
+        input:focus-visible,
+        select:focus-visible,
+        textarea:focus-visible,
+        a:focus-visible {
+            outline: 3px solid var(--color-primary-light);
+            outline-offset: 2px;
+        }
+        .container {
+            width: 100%;
+            padding-inline: 1rem;
+            margin: 0 auto;
+            max-width: var(--container-max);
+        }
+        /* 侧边竖向导航 */
+        .nav {
+            position: fixed;
+            top:0;
+            left:0;
+            height:100vh;
+            width: 220px;
+            background: var(--color-bg-card);
+            box-shadow: var(--shadow-md);
+            z-index: 99;
+            padding: 2rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav__inner {
+            display:flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .nav__logo {
+            font-weight:700;
+            font-size:1.8rem;
+            color:var(--color-primary);
+            text-decoration:none;
+            margin-bottom:3rem;
+        }
+        .nav__hamburger {
+            display:none;
+        }
+        .nav__menu {
+            max-height: unset;
+            overflow:visible;
+        }
+        .nav__list {
+            list-style:none;
+            display:flex;
+            flex-direction:column;
+            gap:1.5rem;
+        }
+        .nav__link {
+            display:block;
+            padding:0.6rem 0.8rem;
+            color:var(--color-text-main);
+            text-decoration:none;
+            transition: var(--transition-base);
+            border-radius: var(--radius-md);
+        }
+        .nav__link:hover {
+            color:var(--color-primary);
+            background-color: var(--color-blue-bg);
+        }
+        main {
+            margin-left: 220px;
+        }
+        .hero {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color:#fff;
+            padding: 3rem 0;
+            text-align:center;
+        }
+        .hero__title {
+            font-size:2rem;
+            margin-bottom:1rem;
+        }
+        .hero__desc {
+            font-size:1.05rem;
+            opacity:0.92;
+            max-width:600px;
+            margin:0 auto 1.5rem;
+        }
+        .hero__btn {
+            display:inline-block;
+            background:#fff;
+            color:var(--color-primary);
+            padding:0.75rem 1.5rem;
+            border-radius:var(--radius-md);
+            text-decoration:none;
+            font-weight:600;
+            transition: var(--transition-base);
+        }
+        .hero__btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .features {
+            padding:3rem 0;
+        }
+        .features__head {
+            text-align:center;
+            margin-bottom:2rem;
+        }
+        .features__title {
+            font-size:1.7rem;
+            margin-bottom:0.5rem;
+        }
+        .features__grid {
+            display:grid;
+            grid-template-columns: 1fr;
+            gap:1.25rem;
+        }
+        .feature-card {
+            background:var(--color-bg-card);
+            padding:1.5rem;
+            border-radius:var(--radius-lg);
+            box-shadow:var(--shadow-sm);
+            transition: var(--transition-base);
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        .feature-card__title {
+            font-size:1.15rem;
+            margin-bottom:0.5rem;
+        }
+        .feature-card__text {
+            color:var(--color-text-secondary);
+        }
+        .login-section{
+            padding:2rem 0 3rem;
+        }
+        .app-card {
+            background:var(--color-bg-card);
+            border-radius:var(--radius-lg);
+            padding:1.5rem;
+            max-width:600px;
+            margin:0 auto;
+            box-shadow:var(--shadow-md);
+        }
+        .app-card__heading {
+            margin-bottom:1rem;
+            font-size:1.3rem;
+        }
+        .app-row {
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-bottom:1rem;
+        }
+        .app-field {
+            flex:1;
+            min-width:140px;
+            padding:10px 12px;
+            border:1px solid var(--color-border);
+            border-radius:var(--radius-md);
+        }
+        .app-btn {
+            padding:10px 14px;
+            border:none;
+            border-radius:var(--radius-md);
+            cursor:pointer;
+            transition: var(--transition-base);
+        }
+        .app-btn--purple {
+            background:#6366f1;
+            color:white;
+        }
+        .app-btn--purple:hover {
+            background:#818cf8;
+        }
+        .app-tip {
+            color:var(--color-text-light);
+            font-size:0.9rem;
+            margin:0.5rem 0;
+        }
+        .contact {
+            padding:3rem 0;
+            background:#ffffff;
+        }
+        .contact__head {
+            text-align:center;
+            margin-bottom:2rem;
+        }
+        .contact__form {
+            max-width:600px;
+            margin:0 auto;
+            display:grid;
+            gap:1rem;
+        }
+        .contact__field {
+            display:flex;
+            flex-direction:column;
+            gap:0.3rem;
+        }
+        .contact__input, .contact__textarea {
+            padding:0.75rem;
+            border:1px solid var(--color-border);
+            border-radius:var(--radius-md);
+        }
+        .contact__textarea {
+            min-height:120px;
+            resize:vertical;
+        }
+        .contact__submit {
+            background:var(--color-primary);
+            color:white;
+            border:none;
+            padding:0.85rem;
+            border-radius:var(--radius-md);
+            cursor:pointer;
+            transition:var(--transition-base);
+        }
+        .contact__submit:hover {
+            background:var(--color-primary-light);
+        }
+        .footer {
+            padding:2rem 0;
+            text-align:center;
+            color:var(--color-text-light);
+            font-size:0.9rem;
+        }
+        @media (max-width:767px) {
+            .nav {
+                position: sticky;
+                top:0;
+                left:0;
+                width:100%;
+                height:auto;
+                padding: 1rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items:center;
+            }
+            .nav__inner {
+                flex-direction: row;
+                width:100%;
+                justify-content: space-between;
+                align-items:center;
+            }
+            .nav__logo {
+                margin-bottom:0;
+                font-size:1.25rem;
+            }
+            .nav__hamburger {
+                display:flex;
+                background:none;
+                border:none;
+                cursor:pointer;
+                width:32px;
+                height:32px;
+                flex-direction:column;
+                gap:5px;
+                justify-content:center;
+            }
+            .nav__hamburger-line {
+                width:100%;
+                height:2px;
+                background-color:var(--color-text-main);
+                transition: var(--transition-base);
+            }
+            .nav__menu {
+                max-height:0;
+                overflow:hidden;
+                transition: max-height 0.35s ease;
+            }
+            .nav__menu--open {
+                max-height:240px;
+            }
+            .nav__list {
+                flex-direction:column;
+                gap:0.5rem;
+                padding:0 1rem 1rem;
+            }
+            main {
+                margin-left:0;
+            }
+            .features__grid {
+                grid-template-columns: 1fr;
+            }
+            .hero__title {
+                font-size:2rem;
+            }
+        }
+        @media (min-width:1024px) {
+            .features__grid {
+                grid-template-columns: repeat(3,1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav__inner">
+            <a href="#" class="nav__logo">共享记账</a>
+            <button class="nav__hamburger" aria-label="打开导航菜单" id="hamburgerBtn">
+                <span class="nav__hamburger-line"></span>
+                <span class="nav__hamburger-line"></span>
+                <span class="nav__hamburger-line"></span>
+            </button>
+        </div>
+        <div class="nav__menu" id="navMenu">
+            <ul class="nav__list">
+                <li><a href="#hero" class="nav__link">首页</a></li>
+                <li><a href="#features" class="nav__link">功能</a></li>
+                <li><a href="#login" class="nav__link">进入账本</a></li>
+                <li><a href="#contact" class="nav__link">联系我们</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero" id="hero">
+            <div class="container">
+                <h1 class="hero__title">多人共享记账账本</h1>
+                <p class="hero__desc">本地浏览器存储，输入密钥即可多人共用一份账单，适合朋友、家庭共同记账。</p>
+                <a href="#login" class="hero__btn">立即开始记账</a>
+            </div>
+        </section>
+
+        <section class="features" id="features">
+            <div class="container">
+                <div class="features__head">
+                    <h2 class="features__title">产品特性</h2>
+                    <p>简单、轻量、无需服务器，浏览器本地存储</p>
+                </div>
+                <div class="features__grid">
+                    <article class="feature-card">
+                        <h3 class="feature-card__title">🔑密钥共享账本</h3>
+                        <p class="feature-card__text">创建6位数字密钥，分享密钥即可多人使用同一套账单。</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3 class="feature-card__title">📊统计汇总</h3>
+                        <p class="feature-card__text">当月收支、全局累计结余自动计算，数据一目了然。</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3 class="feature-card__title">🔍筛选查询</h3>
+                        <p class="feature-card__text">支持按月份、收支类型筛选账单明细记录。</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3 class="feature-card__title">💾本地存储</h3>
+                        <p class="feature-card__text">全部数据保存在浏览器LocalStorage，不需要后端服务器。</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3 class="feature-card__title">📱响应式布局</h3>
+                        <p class="feature-card__text">手机平板电脑均可正常使用，移动优先适配。</p>
+                    </article>
+                    <article class="feature-card">
+                        <h3 class="feature-card__title">✏️增删记录</h3>
+                        <p class="feature-card__text">账本内任意成员都可以新增、删除账单条目。</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="login-section container" id="login">
+            <div class="app-card">
+                <h2 class="app-card__heading">共享账本入口</h2>
+                <p class="app-tip">输入账本密钥，所有人共用同一套账单</p>
+                <div class="app-row">
+                    <input class="app-field" id="shareKey" placeholder="输入6位共享密钥" aria-label="账本密钥">
+                    <button class="app-btn app-btn--purple" onclick="enterBook()">进入账本</button>
+                </div>
+                <div style="margin-top:14px">
+                    <button class="app-btn app-btn--purple" onclick="createNewBook()">创建新共享账本（生成密钥）</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="contact__head">
+                    <h2>联系我们</h2>
+                    <p>反馈功能问题或提出建议</p>
+                </div>
+                <form class="contact__form" id="contactForm">
+                    <div class="contact__field">
+                        <label for="cName">姓名</label>
+                        <input class="contact__input" id="cName" type="text" required>
+                    </div>
+                    <div class="contact__field">
+                        <label for="cMail">邮箱</label>
+                        <input class="contact__input" id="cMail" type="email" required>
+                    </div>
+                    <div class="contact__field">
+                        <label for="cMsg">留言</label>
+                        <textarea class="contact__textarea" id="cMsg" required></textarea>
+                    </div>
+                    <button class="contact__submit" type="submit">提交反馈</button>
+                </form>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>© 2026 共享记账工具｜本地浏览器存储，无后端服务</p>
+            </div>
+        </footer>
+    </main>
+
+<script>
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const navMenu = document.getElementById('navMenu');
+hamburgerBtn.addEventListener('click', ()=>{
+    navMenu.classList.toggle('nav__menu--open');
+});
+document.querySelectorAll('.nav__link').forEach(link=>{
+    link.addEventListener('click',()=>{
+        navMenu.classList.remove('nav__menu--open');
+    })
+})
+document.getElementById('contactForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    alert("反馈已模拟提交（本demo无后端，仅前端表单）");
+    this.reset();
+})
+
+// 账本数据存储（和book.html共用localStorage）
+let shareBooks = JSON.parse(localStorage.getItem("shareBillStorage")) || {};
+function saveAllBooks() {
+    localStorage.setItem("shareBillStorage", JSON.stringify(shareBooks));
+}
+
+// 创建账本，保存密钥，跳转到 book.html
+function createNewBook() {
+    let key = "";
+    for(let i=0;i<6;i++) key += Math.floor(Math.random()*10);
+    if(!shareBooks[key]) shareBooks[key] = [];
+    saveAllBooks();
+    alert(`创建成功！你的共享密钥：${key}\n把密钥发给家人/朋友即可共用账本`);
+    // 将密钥存sessionStorage，跳转到记账页面
+    sessionStorage.setItem("activeBookKey", key);
+    window.location.href = "book.html";
+}
+
+// 输入密钥校验，保存密钥，跳转到 book.html
+function enterBook() {
+    const inputKey = document.getElementById("shareKey").value.trim();
+    if(inputKey.length !== 6 || isNaN(inputKey)) {
+        alert("请输入6位数字密钥");
+        return;
+    }
+    if(!shareBooks[inputKey]) {
+        alert("该账本不存在，请核对密钥或新建账本");
+        return;
+    }
+    sessionStorage.setItem("activeBookKey", inputKey);
+    window.location.href = "book.html";
+}
+</script>
+</body>
+</html>
