@@ -1,1 +1,375 @@
-# c-y-h-h-h
+[index.html](https://github.com/user-attachments/files/33722657/index.html)
+[book.html](https://github.com/user-attachments/files/33722662/book.html)
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共享账本｜记账页面</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #2563eb;
+            --color-primary-light: #3b82f6;
+            --color-danger: #ef4444;
+            --color-success: #16a34a;
+            --color-success-bg: #dcfce7;
+            --color-warning: #dc2626;
+            --color-warning-bg: #fee2e2;
+            --color-info: #0369a1;
+            --color-info-bg: #e0f2fe;
+            --color-blue-bg: #dbeafe;
+            --color-text-main: #1f2937;
+            --color-text-secondary: #4b5563;
+            --color-text-light: #6b7280;
+            --color-border: #e5e7eb;
+            --color-bg-page: #f5f7fa;
+            --color-bg-card: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 2px 12px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition-base: all 0.24s ease;
+            --container-max: 1040px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            color: var(--color-text-main);
+            background-color: var(--color-bg-page);
+            line-height: 1.6;
+            padding:20px;
+        }
+        .container {
+            max-width: var(--container-max);
+            margin:0 auto;
+        }
+        .app-card {
+            background:var(--color-bg-card);
+            border-radius:var(--radius-lg);
+            padding:1.5rem;
+            margin-bottom:1.25rem;
+            box-shadow:var(--shadow-md);
+        }
+        .app-card__heading {
+            margin-bottom:1rem;
+            font-size:1.3rem;
+        }
+        .app-row {
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-bottom:1rem;
+        }
+        .app-field {
+            flex:1;
+            min-width:140px;
+            padding:10px 12px;
+            border:1px solid var(--color-border);
+            border-radius:var(--radius-md);
+        }
+        .app-btn {
+            padding:10px 14px;
+            border:none;
+            border-radius:var(--radius-md);
+            cursor:pointer;
+            transition: var(--transition-base);
+        }
+        .app-btn--primary {
+            background:var(--color-primary);
+            color:white;
+        }
+        .app-btn--primary:hover {
+            background:var(--color-primary-light);
+        }
+        .app-btn--danger {
+            background:var(--color-danger);
+            color:white;
+            padding:6px 10px;
+            font-size:0.85rem;
+        }
+        .app-btn--danger:hover {
+            opacity:0.88;
+        }
+        .app-btn--purple {
+            background:#6366f1;
+            color:white;
+        }
+        .app-btn--purple:hover {
+            background:#818cf8;
+        }
+        .app-tip {
+            color:var(--color-text-light);
+            font-size:0.9rem;
+            margin:0.5rem 0;
+        }
+        .stat-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+            margin-bottom:1.25rem;
+        }
+        .stat-item {
+            padding:1rem;
+            border-radius:var(--radius-lg);
+            text-align:center;
+        }
+        .stat-item--income {background:var(--color-success-bg); color:var(--color-success);}
+        .stat-item--pay {background:var(--color-warning-bg); color:var(--color-warning);}
+        .stat-item--save {background:var(--color-info-bg); color:var(--color-info);}
+        .stat-item--balance {background:var(--color-blue-bg); color:var(--color-primary);}
+        .stat-item__num {
+            font-size:1.4rem;
+            font-weight:700;
+            margin-top:4px;
+        }
+        table {
+            width:100%;
+            border-collapse: collapse;
+            margin-top:0.75rem;
+        }
+        th,td {
+            border:1px solid var(--color-border);
+            padding:10px 6px;
+            text-align:center;
+            font-size:0.9rem;
+        }
+        th {
+            background-color:#f9fafb;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="app-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+            <h2 class="app-card__heading">共享账本｜密钥：<span id="currentKey"></span></h2>
+            <button class="app-btn app-btn--purple" onclick="exitBook()">退出账本</button>
+        </div>
+        <p class="app-tip">⚠️ 当前所有人共用同一账单，添加/删除记录所有人可见</p>
+    </div>
+
+    <div class="app-card">
+        <h2 class="app-card__heading">📊 游玩统计</h2>
+        <h3 style="margin-bottom:0.5rem">当月数据</h3>
+        <div class="stat-grid">
+            <div class="stat-item stat-item--income">
+                <div>当月累存</div>
+                <div class="stat-item__num" id="income">0.00</div>
+            </div>
+            <div class="stat-item stat-item--pay">
+                <div>当月总支出</div>
+                <div class="stat-item__num" id="monthPay">0.00</div>
+            </div>
+        </div>
+        <h3 style="margin:1rem 0 0.5rem">全局累计数据</h3>
+        <div class="stat-grid">
+            <div class="stat-item stat-item--save">
+                <div>总累存</div>
+                <div class="stat-item__num" id="allSave">0.00</div>
+            </div>
+            <div class="stat-item stat-item--balance">
+                <div>累计结余</div>
+                <div class="stat-item__num" id="allSurplus">0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-card">
+        <h2 class="app-card__heading">➕ 添加账单</h2>
+        <div class="app-row">
+            <input class="app-field" type="date" id="billDate">
+            <select class="app-field" id="billType">
+                <option value="存">存</option>
+                <option value="扣">扣</option>
+            </select>
+            <select class="app-field" id="billClass">
+                <option value="屏享">屏享</option>
+                <option value="存">存</option>
+                <option value="瓦">瓦</option>
+                <option value="送礼">送礼</option>
+                <option value="steam">steam</option>
+                <option value="语聊">语聊</option>
+                <option value="好友位">好友位</option>
+            </select>
+            <input class="app-field" type="number" step="0.01" placeholder="金额" id="billMoney">
+            <input class="app-field" type="text" placeholder="备注" id="billNote">
+            <button class="app-btn app-btn--primary" onclick="addBill()">保存账单</button>
+        </div>
+    </div>
+
+    <div class="app-card">
+        <div class="app-row">
+            <select class="app-field" id="filterMonth">
+                <option value="">全部月份</option>
+            </select>
+            <select class="app-field" id="filterType">
+                <option value="">全部收支</option>
+                <option value="存">仅存钱</option>
+                <option value="扣">仅支出</option>
+            </select>
+        </div>
+        <h2 class="app-card__heading">📃 共用账单明细</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>日期</th>
+                    <th>类型</th>
+                    <th>分类</th>
+                    <th>金额</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="billList"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+let globalShareKey = sessionStorage.getItem("activeBookKey");
+let shareBooks = JSON.parse(localStorage.getItem("shareBillStorage")) || {};
+const dateInput = document.getElementById("billDate");
+const now = new Date();
+dateInput.value = now.toISOString().split("T")[0];
+
+// 如果没有密钥，直接打回首页
+if(!globalShareKey || !shareBooks[globalShareKey]){
+    alert("未检测合法账本密钥，返回首页");
+    window.location.href = "index.html";
+}
+
+document.getElementById("currentKey").innerText = globalShareKey;
+
+function saveAllBooks() {
+    localStorage.setItem("shareBillStorage", JSON.stringify(shareBooks));
+}
+
+// 退出，清空sessionStorage，返回首页
+function exitBook() {
+    sessionStorage.removeItem("activeBookKey");
+    window.location.href = "index.html";
+}
+
+function getCurrentBillList() {
+    return shareBooks[globalShareKey] || [];
+}
+
+function initMonthFilter() {
+    const monthSel = document.getElementById("filterMonth");
+    monthSel.innerHTML = `<option value="">全部月份</option>`;
+    const billArr = getCurrentBillList();
+    const monthSet = new Set();
+    billArr.forEach(item => monthSet.add(item.date.slice(0,7)));
+    Array.from(monthSet).sort().reverse().forEach(m => {
+        const opt = document.createElement("option");
+        opt.value = m;
+        opt.innerText = m;
+        monthSel.appendChild(opt);
+    })
+}
+
+function addBill() {
+    const date = document.getElementById("billDate").value;
+    const type = document.getElementById("billType").value;
+    const cls = document.getElementById("billClass").value;
+    const money = Number(document.getElementById("billMoney").value);
+    const note = document.getElementById("billNote").value.trim();
+    if(!date || !money || money <= 0) {
+        alert("请填写合法日期与金额");
+        return;
+    }
+    const newBill = {
+        id: Date.now(),
+        date,
+        type,
+        class: cls,
+        money,
+        note
+    }
+    shareBooks[globalShareKey].push(newBill);
+    saveAllBooks();
+    renderPage();
+    document.getElementById("billMoney").value = "";
+    document.getElementById("billNote").value = "";
+}
+
+function delBill(billId) {
+    const list = getCurrentBillList();
+    shareBooks[globalShareKey] = list.filter(item => item.id !== billId);
+    saveAllBooks();
+    renderPage();
+}
+
+function calcStats(billList){
+    const curMonth = new Date().toISOString().slice(0,7);
+    let monthIn = 0, monthOut = 0, totalIn=0, totalOut=0;
+    billList.forEach(b=>{
+        const num = Number(b.money);
+        if(b.type === "存"){
+            totalIn += num;
+            if(b.date.startsWith(curMonth)) monthIn += num;
+        }else{
+            totalOut += num;
+            if(b.date.startsWith(curMonth)) monthOut += num;
+        }
+    })
+    return {
+        monthIn,
+        monthOut,
+        totalIn,
+        surplus: totalIn - totalOut
+    }
+}
+
+function renderPage() {
+    initMonthFilter();
+    const filterMonth = document.getElementById("filterMonth").value;
+    const filterType = document.getElementById("filterType").value;
+    let showList = [...getCurrentBillList()];
+    if(filterMonth) showList = showList.filter(i => i.date.startsWith(filterMonth));
+    if(filterType) showList = showList.filter(i => i.type === filterType);
+
+    const tbody = document.getElementById("billList");
+    tbody.innerHTML = "";
+    showList.forEach(item => {
+        const tr = document.createElement("tr");
+        const moneyHtml = item.type === "存"
+            ? `<span style="color:#16a34a">+${item.money.toFixed(2)}</span>`
+            : `<span style="color:#dc2626">-${item.money.toFixed(2)}</span>`;
+        tr.innerHTML = `
+            <td>${item.date}</td>
+            <td>${item.type}</td>
+            <td>${item.class}</td>
+            <td>${moneyHtml}</td>
+            <td>${item.note || "无"}</td>
+            <td><button class="app-btn app-btn--danger" onclick="delBill(${item.id})">删除</button></td>
+        `;
+        tbody.appendChild(tr);
+    })
+
+    const allBills = getCurrentBillList();
+    const stat = calcStats(allBills);
+    document.getElementById('income').innerText = stat.monthIn.toFixed(2);
+    document.getElementById('monthPay').innerText = stat.monthOut.toFixed(2);
+    document.getElementById('allSave').innerText = stat.totalIn.toFixed(2);
+    document.getElementById('allSurplus').innerText = stat.surplus.toFixed(2);
+}
+
+document.getElementById("filterMonth").onchange = renderPage;
+document.getElementById("filterType").onchange = renderPage;
+
+// 页面加载完渲染
+renderPage();
+</script>
+</body>
+</html>
