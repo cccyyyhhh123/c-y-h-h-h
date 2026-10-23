@@ -1,507 +1,727 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>共享共用记账账本 | 首页</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #2563eb;
-            --color-primary-light: #3b82f6;
-            --color-danger: #ef4444;
-            --color-success: #16a34a;
-            --color-success-bg: #dcfce7;
-            --color-warning: #dc2626;
-            --color-warning-bg: #fee2e2;
-            --color-info: #0369a1;
-            --color-info-bg: #e0f2fe;
-            --color-blue-bg: #dbeafe;
-            --color-text-main: #1f2937;
-            --color-text-secondary: #4b5563;
-            --color-text-light: #6b7280;
-            --color-border: #e5e7eb;
-            --color-bg-page: #f5f7fa;
-            --color-bg-card: #ffffff;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 2px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-            --radius-sm: 6px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --transition-base: all 0.24s ease;
-            --container-max: 1040px;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            color: var(--color-text-main);
-            background-color: var(--color-bg-page);
-            line-height: 1.6;
-        }
-        img {max-width:100%; display:block;}
-        button, input, select, textarea {
-            font-family: inherit;
-            font-size: 1rem;
-        }
-        button:focus-visible,
-        input:focus-visible,
-        select:focus-visible,
-        textarea:focus-visible,
-        a:focus-visible {
-            outline: 3px solid var(--color-primary-light);
-            outline-offset: 2px;
-        }
-        .container {
-            width: 100%;
-            padding-inline: 1rem;
-            margin: 0 auto;
-            max-width: var(--container-max);
-        }
-        /* 侧边竖向导航 */
-        .nav {
-            position: fixed;
-            top:0;
-            left:0;
-            height:100vh;
-            width: 220px;
-            background: var(--color-bg-card);
-            box-shadow: var(--shadow-md);
-            z-index: 99;
-            padding: 2rem 1.2rem;
-            display: flex;
-            flex-direction: column;
-        }
-        .nav__inner {
-            display:flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .nav__logo {
-            font-weight:700;
-            font-size:1.8rem;
-            color:var(--color-primary);
-            text-decoration:none;
-            margin-bottom:3rem;
-        }
-        .nav__hamburger {
-            display:none;
-        }
-        .nav__menu {
-            max-height: unset;
-            overflow:visible;
-        }
-        .nav__list {
-            list-style:none;
-            display:flex;
-            flex-direction:column;
-            gap:1.5rem;
-        }
-        .nav__link {
-            display:block;
-            padding:0.6rem 0.8rem;
-            color:var(--color-text-main);
-            text-decoration:none;
-            transition: var(--transition-base);
-            border-radius: var(--radius-md);
-        }
-        .nav__link:hover {
-            color:var(--color-primary);
-            background-color: var(--color-blue-bg);
-        }
-        main {
-            margin-left: 220px;
-        }
-        .hero {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            color:#fff;
-            padding: 3rem 0;
-            text-align:center;
-        }
-        .hero__title {
-            font-size:2rem;
-            margin-bottom:1rem;
-        }
-        .hero__desc {
-            font-size:1.05rem;
-            opacity:0.92;
-            max-width:600px;
-            margin:0 auto 1.5rem;
-        }
-        .hero__btn {
-            display:inline-block;
-            background:#fff;
-            color:var(--color-primary);
-            padding:0.75rem 1.5rem;
-            border-radius:var(--radius-md);
-            text-decoration:none;
-            font-weight:600;
-            transition: var(--transition-base);
-        }
-        .hero__btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-        .features {
-            padding:3rem 0;
-        }
-        .features__head {
-            text-align:center;
-            margin-bottom:2rem;
-        }
-        .features__title {
-            font-size:1.7rem;
-            margin-bottom:0.5rem;
-        }
-        .features__grid {
-            display:grid;
-            grid-template-columns: 1fr;
-            gap:1.25rem;
-        }
-        .feature-card {
-            background:var(--color-bg-card);
-            padding:1.5rem;
-            border-radius:var(--radius-lg);
-            box-shadow:var(--shadow-sm);
-            transition: var(--transition-base);
-        }
-        .feature-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-        .feature-card__title {
-            font-size:1.15rem;
-            margin-bottom:0.5rem;
-        }
-        .feature-card__text {
-            color:var(--color-text-secondary);
-        }
-        .login-section{
-            padding:2rem 0 3rem;
-        }
-        .app-card {
-            background:var(--color-bg-card);
-            border-radius:var(--radius-lg);
-            padding:1.5rem;
-            max-width:600px;
-            margin:0 auto;
-            box-shadow:var(--shadow-md);
-        }
-        .app-card__heading {
-            margin-bottom:1rem;
-            font-size:1.3rem;
-        }
-        .app-row {
-            display:flex;
-            gap:12px;
-            flex-wrap:wrap;
-            margin-bottom:1rem;
-        }
-        .app-field {
-            flex:1;
-            min-width:140px;
-            padding:10px 12px;
-            border:1px solid var(--color-border);
-            border-radius:var(--radius-md);
-        }
-        .app-btn {
-            padding:10px 14px;
-            border:none;
-            border-radius:var(--radius-md);
-            cursor:pointer;
-            transition: var(--transition-base);
-        }
-        .app-btn--purple {
-            background:#6366f1;
-            color:white;
-        }
-        .app-btn--purple:hover {
-            background:#818cf8;
-        }
-        .app-tip {
-            color:var(--color-text-light);
-            font-size:0.9rem;
-            margin:0.5rem 0;
-        }
-        .contact {
-            padding:3rem 0;
-            background:#ffffff;
-        }
-        .contact__head {
-            text-align:center;
-            margin-bottom:2rem;
-        }
-        .contact__form {
-            max-width:600px;
-            margin:0 auto;
-            display:grid;
-            gap:1rem;
-        }
-        .contact__field {
-            display:flex;
-            flex-direction:column;
-            gap:0.3rem;
-        }
-        .contact__input, .contact__textarea {
-            padding:0.75rem;
-            border:1px solid var(--color-border);
-            border-radius:var(--radius-md);
-        }
-        .contact__textarea {
-            min-height:120px;
-            resize:vertical;
-        }
-        .contact__submit {
-            background:var(--color-primary);
-            color:white;
-            border:none;
-            padding:0.85rem;
-            border-radius:var(--radius-md);
-            cursor:pointer;
-            transition:var(--transition-base);
-        }
-        .contact__submit:hover {
-            background:var(--color-primary-light);
-        }
-        .footer {
-            padding:2rem 0;
-            text-align:center;
-            color:var(--color-text-light);
-            font-size:0.9rem;
-        }
-        @media (max-width:767px) {
-            .nav {
-                position: sticky;
-                top:0;
-                left:0;
-                width:100%;
-                height:auto;
-                padding: 1rem;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items:center;
-            }
-            .nav__inner {
-                flex-direction: row;
-                width:100%;
-                justify-content: space-between;
-                align-items:center;
-            }
-            .nav__logo {
-                margin-bottom:0;
-                font-size:1.25rem;
-            }
-            .nav__hamburger {
-                display:flex;
-                background:none;
-                border:none;
-                cursor:pointer;
-                width:32px;
-                height:32px;
-                flex-direction:column;
-                gap:5px;
-                justify-content:center;
-            }
-            .nav__hamburger-line {
-                width:100%;
-                height:2px;
-                background-color:var(--color-text-main);
-                transition: var(--transition-base);
-            }
-            .nav__menu {
-                max-height:0;
-                overflow:hidden;
-                transition: max-height 0.35s ease;
-            }
-            .nav__menu--open {
-                max-height:240px;
-            }
-            .nav__list {
-                flex-direction:column;
-                gap:0.5rem;
-                padding:0 1rem 1rem;
-            }
-            main {
-                margin-left:0;
-            }
-            .features__grid {
-                grid-template-columns: 1fr;
-            }
-            .hero__title {
-                font-size:2rem;
-            }
-        }
-        @media (min-width:1024px) {
-            .features__grid {
-                grid-template-columns: repeat(3,1fr);
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger · Shared books for a crew</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #eef0ea;
+    --paper-deep: #e4e7df;
+    --panel: #ffffff;
+    --ink: #14171a;
+    --ink-2: #3f454a;
+    --ink-3: #5c6266;
+    --line: #d5dad0;
+    --line-soft: #eceee9;
+    --in: #0f6b45;
+    --out: #a23325;
+    --action: #1c1f22;
+    --r-panel: 10px;
+    --r-control: 4px;
+    --shell: 1180px;
+    --display: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .shell {
+    width: 100%;
+    max-width: var(--shell);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- top bar ---------- */
+
+  .topbar { background: var(--panel); }
+
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 68px;
+  }
+
+  .wordmark {
+    text-decoration: none;
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+
+  .topnav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-left: auto;
+    font-size: 15px;
+  }
+
+  .topnav a {
+    text-decoration: none;
+    color: var(--ink-2);
+    transition: color .15s ease;
+  }
+
+  .topnav a:hover { color: var(--ink); }
+
+  .topnav .topnav__action {
+    color: #fff;
+    background: var(--action);
+    padding: 8px 16px;
+    border-radius: var(--r-control);
+  }
+
+  .topnav .topnav__action:hover { color: #fff; background: #000; }
+
+  /* ---------- buttons ---------- */
+
+  .btn {
+    font: inherit;
+    font-weight: 500;
+    border: 0;
+    border-radius: var(--r-control);
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background-color .15s ease, transform .12s ease;
+  }
+
+  .btn:active { transform: translateY(1px); }
+
+  .btn--primary { background: var(--action); color: #fff; }
+  .btn--primary:hover { background: #000; }
+
+  .btn--quiet {
+    background: transparent;
+    color: var(--ink);
+    padding: 12px 4px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+
+  .btn--quiet:hover { color: var(--ink-2); }
+
+  /* ---------- type ---------- */
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    line-height: 0.99;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px;
+    max-width: 14ch;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(1.9rem, 3.2vw, 2.4rem);
+    line-height: 1.06;
+    letter-spacing: -0.015em;
+    margin: 0 0 16px;
+    max-width: 20ch;
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero { padding: 96px 0 104px; }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    gap: 72px;
+    align-items: center;
+  }
+
+  .lede {
+    margin: 0 0 36px;
+    font-size: 18px;
+    color: var(--ink);
+    max-width: 44ch;
+  }
+
+  .hero__actions { display: flex; align-items: center; gap: 24px; }
+
+  /* ---------- interface fragments ---------- */
+
+  .frag {
+    background: var(--panel);
+    border-radius: var(--r-panel);
+    padding: 20px;
+    color: var(--ink);
+  }
+
+  .frag__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .frag__title { font-size: 13px; color: var(--ink-3); }
+
+  .keychip {
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-2);
+    background: var(--paper);
+    border-radius: var(--r-control);
+    padding: 2px 8px;
+  }
+
+  .frag__balance { display: flex; align-items: baseline; gap: 10px; }
+
+  .frag__balance strong {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .frag__balance span { font-size: 13px; color: var(--ink-3); }
+
+  .frag table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+
+  .frag th {
+    text-align: left;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink-3);
+    padding: 0 8px 6px;
+  }
+
+  .frag th.num { text-align: right; }
+
+  .frag td {
+    padding: 9px 8px;
+    border-top: 1px solid var(--line-soft);
+    font-size: 14px;
+    vertical-align: baseline;
+  }
+
+  .frag td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .frag td.date { color: var(--ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .frag td.what { color: var(--ink-2); }
+
+  .amt--in { color: var(--in); }
+  .amt--out { color: var(--out); }
+
+  .frag .field { display: grid; gap: 5px; margin-bottom: 10px; }
+
+  .frag .field > span { font-size: 13px; color: var(--ink-3); }
+
+  .frag .fake-input {
+    background: #f2f4ef;
+    border-radius: var(--r-control);
+    padding: 8px 10px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+
+  .frag .fake-btn {
+    display: inline-block;
+    background: var(--action);
+    color: #fff;
+    border-radius: var(--r-control);
+    padding: 8px 14px;
+    font-size: 14px;
+  }
+
+  .figure-note {
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  /* ---------- how it works ---------- */
+
+  .band { background: var(--paper-deep); padding: 96px 0; }
+
+  .band__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 64px;
+    align-items: start;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+
+  .steps h3 { font-size: 18px; font-weight: 600; margin: 0 0 8px; }
+
+  .steps p { margin: 0; color: var(--ink); font-size: 16px; max-width: 42ch; }
+
+  /* ---------- inside the book ---------- */
+
+  .inside { padding: 104px 0; }
+
+  .inside__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: 40px;
+    align-items: start;
+    margin-top: 56px;
+  }
+
+  .inside__col { display: grid; gap: 40px; }
+
+  /* ---------- join ---------- */
+
+  .join { padding: 104px 0; }
+
+  .join__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .join p { color: var(--ink); margin: 0 0 24px; max-width: 46ch; }
+
+  .keyrow { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  .input {
+    font: inherit;
+    color: var(--ink);
+    background: var(--panel);
+    border: 0;
+    border-radius: var(--r-control);
+    padding: 12px 14px;
+    min-width: 0;
+  }
+
+  .input--key {
+    flex: 1 1 200px;
+    font-size: 18px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+  }
+
+  .join__create { margin-top: 28px; }
+
+  .join__create p { margin: 0 0 12px; font-size: 15px; }
+
+  .keycard { margin-top: 40px; }
+
+  .keycard__digits {
+    font-family: var(--display);
+    font-size: 30px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+
+  .keycard__meta { margin: 10px 0 0; font-size: 13px; color: var(--ink-3); }
+
+  /* ---------- feedback ---------- */
+
+  .feedback { background: var(--ink); color: var(--paper); padding: 96px 0; }
+
+  .feedback h2 { color: var(--paper); }
+
+  .feedback__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .feedback .sub { color: #c3c9bf; margin: 0 0 20px; max-width: 34ch; }
+
+  .feedback .fine { color: #9aa196; font-size: 14px; margin: 0; max-width: 30ch; }
+
+  .feedback form { display: grid; gap: 16px; }
+
+  .field { display: grid; gap: 6px; }
+
+  .field > span { font-size: 13px; color: #c3c9bf; }
+
+  .feedback .input {
+    background: #22262a;
+    border: 0;
+    color: var(--paper);
+  }
+
+  .feedback .input::placeholder { color: #8f969b; }
+
+  textarea.input { min-height: 116px; resize: vertical; font-family: inherit; }
+
+  .feedback .btn--primary { background: var(--paper); color: var(--ink); justify-self: start; }
+  .feedback .btn--primary:hover { background: #fff; }
+
+  .formnote { font-size: 14px; color: #c3c9bf; margin: 0; min-height: 20px; }
+  .formnote:empty { min-height: 0; }
+
+  /* ---------- footer ---------- */
+
+  .footer { padding: 72px 0 64px; }
+
+  .footer__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer .wordmark { font-size: 30px; }
+
+  .footer p { margin: 0; font-size: 14px; color: var(--ink-3); }
+
+  /* ---------- motion ---------- */
+
+  .js [data-rise] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 1.3s cubic-bezier(.16, 1, .3, 1), transform 1.3s cubic-bezier(.16, 1, .3, 1);
+  }
+
+  .js [data-rise].is-in { opacity: 1; transform: none; }
+
+  /* ---------- phone ---------- */
+
+  @media (max-width: 900px) {
+    .hero { padding: 64px 0 72px; }
+    .hero__grid, .inside__grid, .join__grid, .feedback__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 44px;
+    }
+    .steps { grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 40px; }
+    .topnav { gap: 18px; font-size: 14px; }
+    .topnav a:not(.topnav__action) { display: none; }
+    .band, .join, .inside, .feedback { padding: 72px 0; }
+    h1 { max-width: 18ch; }
+  }
+
+  @media (max-width: 520px) {
+    .shell { padding: 0 16px; }
+    .frag { padding: 16px; }
+    .hero__actions { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-rise] { opacity: 1; transform: none; transition: none; }
+    * { animation: none !important; }
+  }
+</style>
 </head>
 <body>
-    <nav class="nav">
-        <div class="nav__inner">
-            <a href="#" class="nav__logo">共享记账</a>
-            <button class="nav__hamburger" aria-label="打开导航菜单" id="hamburgerBtn">
-                <span class="nav__hamburger-line"></span>
-                <span class="nav__hamburger-line"></span>
-                <span class="nav__hamburger-line"></span>
-            </button>
-        </div>
-        <div class="nav__menu" id="navMenu">
-            <ul class="nav__list">
-                <li><a href="#hero" class="nav__link">首页</a></li>
-                <li><a href="#features" class="nav__link">功能</a></li>
-                <li><a href="#login" class="nav__link">进入账本</a></li>
-                <li><a href="#contact" class="nav__link">联系我们</a></li>
-            </ul>
-        </div>
+<script>document.documentElement.classList.add('js');</script>
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="wordmark" href="index.html">Ledger</a>
+    <nav class="topnav" aria-label="Main">
+      <a href="#how">How it works</a>
+      <a href="#inside">Inside the book</a>
+      <a href="#join">Join a ledger</a>
+      <a class="topnav__action" href="#join">Open a ledger</a>
     </nav>
+  </div>
+</header>
 
-    <main>
-        <section class="hero" id="hero">
-            <div class="container">
-                <h1 class="hero__title">多人共享记账账本</h1>
-                <p class="hero__desc">本地浏览器存储，输入密钥即可多人共用一份账单，适合朋友、家庭共同记账。</p>
-                <a href="#login" class="hero__btn">立即开始记账</a>
-            </div>
-        </section>
+<main>
+  <section class="hero">
+    <div class="shell hero__grid">
+      <div data-rise>
+        <h1>One ledger, everyone's entries.</h1>
+        <p class="lede">
+          A shared book for a household, a crew or a group of friends. Everyone opens the same six-digit
+          key and writes to the same running balance. No account, no server, nothing leaves the browser.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#join">Open a ledger</a>
+          <a class="btn btn--quiet" href="#how">See how sharing works</a>
+        </div>
+      </div>
 
-        <section class="features" id="features">
-            <div class="container">
-                <div class="features__head">
-                    <h2 class="features__title">产品特性</h2>
-                    <p>简单、轻量、无需服务器，浏览器本地存储</p>
-                </div>
-                <div class="features__grid">
-                    <article class="feature-card">
-                        <h3 class="feature-card__title">🔑密钥共享账本</h3>
-                        <p class="feature-card__text">创建6位数字密钥，分享密钥即可多人使用同一套账单。</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3 class="feature-card__title">📊统计汇总</h3>
-                        <p class="feature-card__text">当月收支、全局累计结余自动计算，数据一目了然。</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3 class="feature-card__title">🔍筛选查询</h3>
-                        <p class="feature-card__text">支持按月份、收支类型筛选账单明细记录。</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3 class="feature-card__title">💾本地存储</h3>
-                        <p class="feature-card__text">全部数据保存在浏览器LocalStorage，不需要后端服务器。</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3 class="feature-card__title">📱响应式布局</h3>
-                        <p class="feature-card__text">手机平板电脑均可正常使用，移动优先适配。</p>
-                    </article>
-                    <article class="feature-card">
-                        <h3 class="feature-card__title">✏️增删记录</h3>
-                        <p class="feature-card__text">账本内任意成员都可以新增、删除账单条目。</p>
-                    </article>
-                </div>
-            </div>
-        </section>
+      <div data-rise>
+        <div class="frag" data-ui>
+          <div class="frag__head">
+            <span class="frag__title">Shared ledger</span>
+            <span class="keychip">604 118</span>
+          </div>
+          <div class="frag__balance">
+            <strong id="heroBalance">248.90</strong>
+            <span>balance</span>
+          </div>
+          <table>
+            <caption class="visually-hidden" hidden>Recent entries</caption>
+            <thead>
+              <tr><th scope="col">Date</th><th scope="col">Category</th><th scope="col" class="num">Amount</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="date">10-21</td><td class="what">Gifting</td><td class="num"><span class="amt--out">−32.00</span></td></tr>
+              <tr><td class="date">10-19</td><td class="what">Deposit</td><td class="num"><span class="amt--in">+180.00</span></td></tr>
+              <tr><td class="date">10-17</td><td class="what">Steam</td><td class="num"><span class="amt--out">−14.99</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="figure-note">The ledger view. Three people can have it open at once, and every entry lands on the same balance.</p>
+      </div>
+    </div>
+  </section>
 
-        <section class="login-section container" id="login">
-            <div class="app-card">
-                <h2 class="app-card__heading">共享账本入口</h2>
-                <p class="app-tip">输入账本密钥，所有人共用同一套账单</p>
-                <div class="app-row">
-                    <input class="app-field" id="shareKey" placeholder="输入6位共享密钥" aria-label="账本密钥">
-                    <button class="app-btn app-btn--purple" onclick="enterBook()">进入账本</button>
-                </div>
-                <div style="margin-top:14px">
-                    <button class="app-btn app-btn--purple" onclick="createNewBook()">创建新共享账本（生成密钥）</button>
-                </div>
-            </div>
-        </section>
+  <section class="band" id="how">
+    <div class="shell band__grid">
+      <h2 data-rise>Made for people who split things and forget who paid.</h2>
+      <div class="steps">
+        <div data-rise>
+          <h3>Make a key</h3>
+          <p>One press generates a six-digit key and a fresh, empty book. Nothing to register.</p>
+        </div>
+        <div data-rise>
+          <h3>Send the key</h3>
+          <p>Text it to the people in the book. Anyone with the six digits can open it.</p>
+        </div>
+        <div data-rise>
+          <h3>Write it down</h3>
+          <p>Deposits and spending go in one line each, and the balance moves for everyone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <section class="contact" id="contact">
-            <div class="container">
-                <div class="contact__head">
-                    <h2>联系我们</h2>
-                    <p>反馈功能问题或提出建议</p>
-                </div>
-                <form class="contact__form" id="contactForm">
-                    <div class="contact__field">
-                        <label for="cName">姓名</label>
-                        <input class="contact__input" id="cName" type="text" required>
-                    </div>
-                    <div class="contact__field">
-                        <label for="cMail">邮箱</label>
-                        <input class="contact__input" id="cMail" type="email" required>
-                    </div>
-                    <div class="contact__field">
-                        <label for="cMsg">留言</label>
-                        <textarea class="contact__textarea" id="cMsg" required></textarea>
-                    </div>
-                    <button class="contact__submit" type="submit">提交反馈</button>
-                </form>
+  <section class="inside" id="inside">
+    <div class="shell">
+      <h2 data-rise>An entry is one line, and the balance does the rest.</h2>
+      <div class="inside__grid">
+        <div class="inside__col">
+          <div data-rise>
+            <div class="frag" data-ui>
+              <div class="frag__head"><span class="frag__title">Entries</span><span class="keychip">October</span></div>
+              <table>
+                <caption class="visually-hidden" hidden>Entries in October</caption>
+                <thead>
+                  <tr><th scope="col">Date</th><th scope="col">Type</th><th scope="col">Category</th><th scope="col" class="num">Amount</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="date">10-21</td><td class="what">Spend</td><td class="what">Gifting</td><td class="num"><span class="amt--out">−32.00</span></td></tr>
+                  <tr><td class="date">10-20</td><td class="what">Spend</td><td class="what">Voice chat</td><td class="num"><span class="amt--out">−8.50</span></td></tr>
+                  <tr><td class="date">10-19</td><td class="what">Deposit</td><td class="what">Deposit</td><td class="num"><span class="amt--in">+180.00</span></td></tr>
+                  <tr><td class="date">10-17</td><td class="what">Spend</td><td class="what">Steam</td><td class="num"><span class="amt--out">−14.99</span></td></tr>
+                </tbody>
+              </table>
             </div>
-        </section>
+            <p class="figure-note">Every member writes to the same list. Filters narrow it by month or by type.</p>
+          </div>
+        </div>
 
-        <footer class="footer">
-            <div class="container">
-                <p>© 2026 共享记账工具｜本地浏览器存储，无后端服务</p>
+        <div class="inside__col">
+          <div data-rise>
+            <div class="frag" data-ui>
+              <div class="frag__head"><span class="frag__title">This month</span><span class="keychip">October</span></div>
+              <table>
+                <caption class="visually-hidden" hidden>Monthly totals</caption>
+                <tbody>
+                  <tr><td class="what">In</td><td class="num"><span class="amt--in">+180.00</span></td></tr>
+                  <tr><td class="what">Out</td><td class="num"><span class="amt--out">−55.49</span></td></tr>
+                  <tr><td class="what">Net</td><td class="num">+124.51</td></tr>
+                </tbody>
+              </table>
             </div>
-        </footer>
-    </main>
+            <p class="figure-note">Totals are computed from the entries, never typed in.</p>
+          </div>
+
+          <div data-rise>
+            <div class="frag" data-ui>
+              <div class="frag__head"><span class="frag__title">Add an entry</span></div>
+              <div class="field"><span>Date</span><div class="fake-input">2026-10-21</div></div>
+              <div class="field"><span>Category</span><div class="fake-input">Gifting</div></div>
+              <div class="field"><span>Amount</span><div class="fake-input">32.00</div></div>
+              <span class="fake-btn">Save entry</span>
+            </div>
+            <p class="figure-note">Four fields, one button. The date defaults to today.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="join" id="join">
+    <div class="shell join__grid">
+      <div data-rise>
+        <h2>Open the book you already share.</h2>
+        <p>
+          Type the six-digit key someone gave you. The entries live in this browser, so the key travels
+          with the book rather than with a login.
+        </p>
+        <p class="figure-note">Entries are stored in this browser only. Clearing site data clears the book.</p>
+      </div>
+
+      <div data-rise>
+        <form class="keyrow" id="joinForm">
+          <label for="shareKey" hidden>Ledger key</label>
+          <input class="input input--key" id="shareKey" inputmode="numeric" autocomplete="off"
+                 maxlength="6" placeholder="Six-digit key" aria-label="Six-digit ledger key">
+          <button class="btn btn--primary" type="submit">Open ledger</button>
+        </form>
+
+        <div class="join__create">
+          <p>No key yet? Start a new book and pass the key on.</p>
+          <button class="btn btn--quiet" type="button" id="createBtn">Create a shared ledger</button>
+        </div>
+
+        <div class="frag keycard" data-ui>
+          <div class="frag__head">
+            <span class="frag__title">Your key</span>
+            <span class="keychip">shared with 3 people</span>
+          </div>
+          <div class="keycard__digits">604 118</div>
+          <p class="keycard__meta">Read the digits out loud, or send them. There is no reset: a lost key means a new book.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feedback" id="feedback">
+    <div class="shell feedback__grid">
+      <div data-rise>
+        <h2>Tell us what is missing.</h2>
+        <p class="sub">Bug reports and small requests both help.</p>
+        <p class="fine">This form is a demo: it confirms the send and stores nothing.</p>
+      </div>
+
+      <form id="contactForm" data-rise>
+        <label class="field"><span>Name</span><input class="input" id="cName" type="text" required></label>
+        <label class="field"><span>Email</span><input class="input" id="cMail" type="email" required></label>
+        <label class="field"><span>Message</span><textarea class="input" id="cMsg" required></textarea></label>
+        <button class="btn btn--primary" type="submit">Send feedback</button>
+        <p class="formnote" id="formNote" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="shell footer__inner">
+      <a class="wordmark" href="index.html">Ledger</a>
+      <p>Shared books, kept in this browser. No backend, no account.</p>
+    </div>
+  </footer>
+</main>
 
 <script>
-const hamburgerBtn = document.getElementById('hamburgerBtn');
-const navMenu = document.getElementById('navMenu');
-hamburgerBtn.addEventListener('click', ()=>{
-    navMenu.classList.toggle('nav__menu--open');
-});
-document.querySelectorAll('.nav__link').forEach(link=>{
-    link.addEventListener('click',()=>{
-        navMenu.classList.remove('nav__menu--open');
-    })
-})
-document.getElementById('contactForm').addEventListener('submit',function(e){
-    e.preventDefault();
-    alert("反馈已模拟提交（本demo无后端，仅前端表单）");
+  /* ---------- entrance: staggered, once per section, visible without script ---------- */
+
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const risers = [...document.querySelectorAll("[data-rise]")];
+
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    risers.forEach((el) => el.classList.add("is-in"));
+  } else {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const group = [...entry.target.parentElement.children].filter((el) => el.hasAttribute("data-rise"));
+        const index = Math.max(0, group.indexOf(entry.target));
+        entry.target.style.transitionDelay = Math.min(index * 80, 240) + "ms";
+        entry.target.classList.add("is-in");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -60px 0px" });
+
+    risers.forEach((el) => observer.observe(el));
+  }
+
+  /* ---------- the signature move: the balance counts up once ---------- */
+
+  (function countBalance() {
+    const el = document.getElementById("heroBalance");
+    if (!el) return;
+    const target = 248.9;
+    if (reduceMotion) { el.textContent = target.toFixed(2); return; }
+
+    const duration = 1200;
+    const start = performance.now();
+    const format = (value) => value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    function frame(now) {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = format(target * eased);
+      if (progress < 1) requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  })();
+
+  /* ---------- ledger data, shared with book.html ---------- */
+
+  const STORE = "shareBillStorage";
+  let shareBooks = JSON.parse(localStorage.getItem(STORE)) || {};
+
+  function saveAllBooks() {
+    localStorage.setItem(STORE, JSON.stringify(shareBooks));
+  }
+
+  document.getElementById("contactForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    document.getElementById("formNote").textContent = "Thanks. Feedback noted (demo form, nothing was sent).";
     this.reset();
-})
+  });
 
-// 账本数据存储（和book.html共用localStorage）
-let shareBooks = JSON.parse(localStorage.getItem("shareBillStorage")) || {};
-function saveAllBooks() {
-    localStorage.setItem("shareBillStorage", JSON.stringify(shareBooks));
-}
+  document.getElementById("createBtn").addEventListener("click", createNewBook);
 
-// 创建账本，保存密钥，跳转到 book.html
-function createNewBook() {
+  document.getElementById("joinForm").addEventListener("submit", function (event) {
+    event.preventDefault();
+    enterBook();
+  });
+
+  function createNewBook() {
     let key = "";
-    for(let i=0;i<6;i++) key += Math.floor(Math.random()*10);
-    if(!shareBooks[key]) shareBooks[key] = [];
+    for (let i = 0; i < 6; i += 1) key += Math.floor(Math.random() * 10);
+    if (!shareBooks[key]) shareBooks[key] = [];
     saveAllBooks();
-    alert(`创建成功！你的共享密钥：${key}\n把密钥发给家人/朋友即可共用账本`);
-    // 将密钥存sessionStorage，跳转到记账页面
+    sessionStorage.setItem("activeBookKey", key);
+    alert("Ledger created.\n\nYour key: " + key + "\nSend it to everyone who should share this book.");
+    window.location.href = "book.html";
+  }
+
+  function enterBook() {
+    const input = document.getElementById("shareKey");
+    const key = input.value.trim();
+    if (key.length !== 6 || Number.isNaN(Number(key))) {
+      alert("Enter the six digits of the key.");
+      input.focus();
+      return;
+    }
+    if (!shareBooks[key]) {
+      alert("No ledger with that key in this browser. Check the digits, or create a new one.");
+      input.focus();
+      return;
+    }
     sessionStorage.setItem("activeBookKey", key);
     window.location.href = "book.html";
-}
-
-// 输入密钥校验，保存密钥，跳转到 book.html
-function enterBook() {
-    const inputKey = document.getElementById("shareKey").value.trim();
-    if(inputKey.length !== 6 || isNaN(inputKey)) {
-        alert("请输入6位数字密钥");
-        return;
-    }
-    if(!shareBooks[inputKey]) {
-        alert("该账本不存在，请核对密钥或新建账本");
-        return;
-    }
-    sessionStorage.setItem("activeBookKey", inputKey);
-    window.location.href = "book.html";
-}
+  }
 </script>
 </body>
 </html>

@@ -1,372 +1,670 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>共享账本｜记账页面</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --color-primary: #2563eb;
-            --color-primary-light: #3b82f6;
-            --color-danger: #ef4444;
-            --color-success: #16a34a;
-            --color-success-bg: #dcfce7;
-            --color-warning: #dc2626;
-            --color-warning-bg: #fee2e2;
-            --color-info: #0369a1;
-            --color-info-bg: #e0f2fe;
-            --color-blue-bg: #dbeafe;
-            --color-text-main: #1f2937;
-            --color-text-secondary: #4b5563;
-            --color-text-light: #6b7280;
-            --color-border: #e5e7eb;
-            --color-bg-page: #f5f7fa;
-            --color-bg-card: #ffffff;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-            --shadow-md: 0 2px 12px rgba(0,0,0,0.1);
-            --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
-            --radius-sm: 6px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
-            --transition-base: all 0.24s ease;
-            --container-max: 1040px;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            color: var(--color-text-main);
-            background-color: var(--color-bg-page);
-            line-height: 1.6;
-            padding:20px;
-        }
-        .container {
-            max-width: var(--container-max);
-            margin:0 auto;
-        }
-        .app-card {
-            background:var(--color-bg-card);
-            border-radius:var(--radius-lg);
-            padding:1.5rem;
-            margin-bottom:1.25rem;
-            box-shadow:var(--shadow-md);
-        }
-        .app-card__heading {
-            margin-bottom:1rem;
-            font-size:1.3rem;
-        }
-        .app-row {
-            display:flex;
-            gap:12px;
-            flex-wrap:wrap;
-            margin-bottom:1rem;
-        }
-        .app-field {
-            flex:1;
-            min-width:140px;
-            padding:10px 12px;
-            border:1px solid var(--color-border);
-            border-radius:var(--radius-md);
-        }
-        .app-btn {
-            padding:10px 14px;
-            border:none;
-            border-radius:var(--radius-md);
-            cursor:pointer;
-            transition: var(--transition-base);
-        }
-        .app-btn--primary {
-            background:var(--color-primary);
-            color:white;
-        }
-        .app-btn--primary:hover {
-            background:var(--color-primary-light);
-        }
-        .app-btn--danger {
-            background:var(--color-danger);
-            color:white;
-            padding:6px 10px;
-            font-size:0.85rem;
-        }
-        .app-btn--danger:hover {
-            opacity:0.88;
-        }
-        .app-btn--purple {
-            background:#6366f1;
-            color:white;
-        }
-        .app-btn--purple:hover {
-            background:#818cf8;
-        }
-        .app-tip {
-            color:var(--color-text-light);
-            font-size:0.9rem;
-            margin:0.5rem 0;
-        }
-        .stat-grid {
-            display:grid;
-            grid-template-columns:1fr 1fr;
-            gap:12px;
-            margin-bottom:1.25rem;
-        }
-        .stat-item {
-            padding:1rem;
-            border-radius:var(--radius-lg);
-            text-align:center;
-        }
-        .stat-item--income {background:var(--color-success-bg); color:var(--color-success);}
-        .stat-item--pay {background:var(--color-warning-bg); color:var(--color-warning);}
-        .stat-item--save {background:var(--color-info-bg); color:var(--color-info);}
-        .stat-item--balance {background:var(--color-blue-bg); color:var(--color-primary);}
-        .stat-item__num {
-            font-size:1.4rem;
-            font-weight:700;
-            margin-top:4px;
-        }
-        table {
-            width:100%;
-            border-collapse: collapse;
-            margin-top:0.75rem;
-        }
-        th,td {
-            border:1px solid var(--color-border);
-            padding:10px 6px;
-            text-align:center;
-            font-size:0.9rem;
-        }
-        th {
-            background-color:#f9fafb;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger · Entries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #eef0ea;
+    --panel: #ffffff;
+    --ink: #14171a;
+    --ink-2: #3f454a;
+    --ink-3: #5c6266;
+    --line: #dfe3dc;
+    --line-soft: #eceee9;
+    --in: #0f6b45;
+    --out: #a23325;
+    --action: #1c1f22;
+    --r-panel: 10px;
+    --r-control: 4px;
+    --shell: 1180px;
+    --display: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  a { color: inherit; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--text);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .shell {
+    width: 100%;
+    max-width: var(--shell);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- top bar ---------- */
+
+  .topbar { background: var(--panel); }
+
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 60px;
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    text-decoration: none;
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+
+  .wordmark span { font-family: var(--text); font-size: 13px; color: var(--ink-3); letter-spacing: 0; }
+
+  .topbar__scope {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  .keychip {
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    background: var(--paper);
+    border-radius: var(--r-control);
+    padding: 2px 8px;
+  }
+
+  .btn {
+    font: inherit;
+    font-weight: 500;
+    border: 0;
+    border-radius: var(--r-control);
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: background-color .15s ease, color .15s ease;
+  }
+
+  .btn--primary { background: var(--action); color: #fff; }
+  .btn--primary:hover { background: #000; }
+
+  .btn--quiet { background: transparent; color: var(--ink-2); padding: 9px 12px; }
+  .btn--quiet:hover { color: var(--ink); background: var(--paper); }
+
+  /* ---------- page ---------- */
+
+  main { padding: 32px 0 72px; }
+
+  .titlerow {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    margin: 0 0 4px;
+  }
+
+  .finding { margin: 0; font-size: 15px; color: var(--ink-2); }
+
+  .panel {
+    background: var(--panel);
+    border-radius: var(--r-panel);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 18px;
+    letter-spacing: 0;
+  }
+
+  /* ---------- summary ---------- */
+
+  .summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.1fr);
+    align-items: center;
+    gap: 0;
+  }
+
+  .summary__lead { padding-right: 32px; }
+
+  .summary__label { display: block; font-size: 14px; color: var(--ink-3); }
+
+  .summary__value {
+    display: block;
+    font-family: var(--display);
+    font-size: 46px;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    font-variant-numeric: tabular-nums;
+    margin-top: 6px;
+  }
+
+  .summary__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+    padding: 0 0 0 40px;
+  }
+
+  .summary__grid > div { padding: 4px 0 4px 28px; }
+
+  .summary__grid dt { font-size: 13px; color: var(--ink-3); }
+
+  .summary__grid dd {
+    margin: 4px 0 0;
+    font-size: 21px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .summary__grid dd.is-in { color: var(--in); }
+  .summary__grid dd.is-out { color: var(--out); }
+
+  /* ---------- entry form ---------- */
+
+  .entry {
+    display: grid;
+    grid-template-columns: 150px 130px 1fr 140px minmax(160px, 1.4fr) auto;
+    gap: 12px;
+    align-items: end;
+  }
+
+  .field { display: grid; gap: 6px; min-width: 0; }
+
+  .field > span { font-size: 13px; color: var(--ink-3); }
+
+  .input, select.input {
+    font: inherit;
+    font-size: 15px;
+    color: var(--ink);
+    background: #f2f4ef;
+    border: 0;
+    border-radius: var(--r-control);
+    padding: 9px 11px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .input--num { font-variant-numeric: tabular-nums; }
+
+  .entry .btn--primary { height: 38px; }
+
+  .formnote { margin: 14px 0 0; font-size: 14px; color: var(--out); min-height: 20px; }
+  .formnote:empty { min-height: 0; }
+
+  /* ---------- entries table ---------- */
+
+  .panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .panel__head h2 { margin: 0; }
+
+  .filters { display: flex; gap: 8px; }
+
+  .filters .input { width: auto; min-width: 132px; font-size: 14px; padding: 6px 10px; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+
+  thead th {
+    text-align: left;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink-3);
+    padding: 0 12px 8px;
+    border: 0;
+  }
+
+  thead th.num { text-align: right; }
+
+  tbody td {
+    padding: 12px;
+    border-top: 1px solid var(--line-soft); /* taste-skill-ignore hairline: table rows */
+    font-size: 15px;
+    vertical-align: baseline;
+  }
+
+  tbody td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  tbody td.date { color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  tbody td.note { color: var(--ink-2); }
+
+  tbody tr:hover { background: #f7f8f5; }
+
+  .amt--in { color: var(--in); }
+  .amt--out { color: var(--out); }
+
+  .del {
+    font: inherit;
+    font-size: 13px;
+    color: var(--ink-3);
+    background: transparent;
+    border: 0;
+    padding: 2px 4px;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .del:hover { color: var(--out); }
+
+  .empty {
+    margin: 18px 0 4px;
+    font-size: 15px;
+    color: var(--ink-3);
+  }
+
+  .num-col { text-align: right; }
+
+  /* ---------- phone ---------- */
+
+  @media (max-width: 1000px) {
+    .entry { grid-template-columns: 1fr 1fr; }
+    .entry .field--wide { grid-column: 1 / -1; }
+    .entry .btn--primary { grid-column: 1 / -1; }
+    .summary { grid-template-columns: minmax(0, 1fr); }
+    .summary__lead { padding: 0 0 20px; }
+    .summary__grid { border-top: 0; padding: 0; }
+    .summary__grid > div { padding: 0 20px 0 0; }
+  }
+
+  @media (max-width: 720px) {
+    .shell { padding: 0 16px; }
+    main { padding: 24px 0 56px; }
+    h1 { font-size: 24px; }
+    .summary__value { font-size: 38px; }
+    .summary__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 0; }
+    .panel { padding: 18px; }
+    thead { display: none; }
+    tbody tr { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding: 12px 0; border-top: 1px solid var(--line-soft); }
+    tbody td { border: 0; padding: 0; }
+    tbody td.date { grid-column: 1; font-size: 13px; }
+    tbody td.num { grid-column: 2; grid-row: 1; font-size: 16px; }
+    tbody td.type { grid-column: 1; }
+    tbody td.cat { grid-column: 1; }
+    tbody td.note { grid-column: 1; font-size: 13px; }
+    tbody td.actions { grid-column: 2; grid-row: 3; text-align: right; }
+    .entry { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
 </head>
 <body>
-<div class="container">
-    <div class="app-card">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-            <h2 class="app-card__heading">共享账本｜密钥：<span id="currentKey"></span></h2>
-            <button class="app-btn app-btn--purple" onclick="exitBook()">退出账本</button>
-        </div>
-        <p class="app-tip">⚠️ 当前所有人共用同一账单，添加/删除记录所有人可见</p>
+
+<header class="topbar">
+  <div class="shell topbar__inner">
+    <a class="wordmark" href="index.html">Ledger</a>
+    <div class="topbar__scope">
+      <span>Shared key</span>
+      <span class="keychip" id="currentKey">------</span>
+    </div>
+    <button class="btn btn--quiet" type="button" id="leaveBtn">Leave ledger</button>
+  </div>
+</header>
+
+<main class="shell">
+  <div class="titlerow">
+    <div>
+      <h1>Shared ledger</h1>
+      <p class="finding" id="finding">Every entry below is visible to everyone holding this key.</p>
+    </div>
+  </div>
+
+  <section class="panel summary" aria-label="Ledger totals">
+    <div class="summary__lead">
+      <span class="summary__label">Balance</span>
+      <span class="summary__value" id="allSurplus">0.00</span>
+    </div>
+    <dl class="summary__grid">
+      <div>
+        <dt>This month in</dt>
+        <dd class="is-in" id="income">0.00</dd>
+      </div>
+      <div>
+        <dt>This month out</dt>
+        <dd class="is-out" id="monthPay">0.00</dd>
+      </div>
+      <div>
+        <dt>All time in</dt>
+        <dd id="allSave">0.00</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="panel">
+    <h2>Add an entry</h2>
+    <form class="entry" id="entryForm">
+      <label class="field">
+        <span>Date</span>
+        <input class="input" type="date" id="billDate" required>
+      </label>
+      <label class="field">
+        <span>Type</span>
+        <select class="input" id="billType">
+          <option value="deposit">Deposit</option>
+          <option value="spend">Spend</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Category</span>
+        <select class="input" id="billClass">
+          <option value="screen-share">Screen share</option>
+          <option value="deposit">Deposit</option>
+          <option value="valorant">Valorant</option>
+          <option value="gifting">Gifting</option>
+          <option value="steam">Steam</option>
+          <option value="voice-chat">Voice chat</option>
+          <option value="friend-slot">Friend slot</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Amount</span>
+        <input class="input input--num" type="number" step="0.01" min="0" placeholder="0.00" id="billMoney" required>
+      </label>
+      <label class="field field--wide">
+        <span>Note</span>
+        <input class="input" type="text" placeholder="Optional" id="billNote">
+      </label>
+      <button class="btn btn--primary" type="submit">Save entry</button>
+    </form>
+    <p class="formnote" id="entryNote" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="panel">
+    <div class="panel__head">
+      <h2>Entries</h2>
+      <div class="filters">
+        <label class="field">
+          <span class="visually-hidden" hidden>Month</span>
+          <select class="input" id="filterMonth" aria-label="Filter by month">
+            <option value="">All months</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="visually-hidden" hidden>Type</span>
+          <select class="input" id="filterType" aria-label="Filter by type">
+            <option value="">All types</option>
+            <option value="deposit">Deposits only</option>
+            <option value="spend">Spending only</option>
+          </select>
+        </label>
+      </div>
     </div>
 
-    <div class="app-card">
-        <h2 class="app-card__heading">📊 游玩统计</h2>
-        <h3 style="margin-bottom:0.5rem">当月数据</h3>
-        <div class="stat-grid">
-            <div class="stat-item stat-item--income">
-                <div>当月累存</div>
-                <div class="stat-item__num" id="income">0.00</div>
-            </div>
-            <div class="stat-item stat-item--pay">
-                <div>当月总支出</div>
-                <div class="stat-item__num" id="monthPay">0.00</div>
-            </div>
-        </div>
-        <h3 style="margin:1rem 0 0.5rem">全局累计数据</h3>
-        <div class="stat-grid">
-            <div class="stat-item stat-item--save">
-                <div>总累存</div>
-                <div class="stat-item__num" id="allSave">0.00</div>
-            </div>
-            <div class="stat-item stat-item--balance">
-                <div>累计结余</div>
-                <div class="stat-item__num" id="allSurplus">0.00</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="app-card">
-        <h2 class="app-card__heading">➕ 添加账单</h2>
-        <div class="app-row">
-            <input class="app-field" type="date" id="billDate">
-            <select class="app-field" id="billType">
-                <option value="存">存</option>
-                <option value="扣">扣</option>
-            </select>
-            <select class="app-field" id="billClass">
-                <option value="屏享">屏享</option>
-                <option value="存">存</option>
-                <option value="瓦">瓦</option>
-                <option value="送礼">送礼</option>
-                <option value="steam">steam</option>
-                <option value="语聊">语聊</option>
-                <option value="好友位">好友位</option>
-            </select>
-            <input class="app-field" type="number" step="0.01" placeholder="金额" id="billMoney">
-            <input class="app-field" type="text" placeholder="备注" id="billNote">
-            <button class="app-btn app-btn--primary" onclick="addBill()">保存账单</button>
-        </div>
-    </div>
-
-    <div class="app-card">
-        <div class="app-row">
-            <select class="app-field" id="filterMonth">
-                <option value="">全部月份</option>
-            </select>
-            <select class="app-field" id="filterType">
-                <option value="">全部收支</option>
-                <option value="存">仅存钱</option>
-                <option value="扣">仅支出</option>
-            </select>
-        </div>
-        <h2 class="app-card__heading">📃 共用账单明细</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>日期</th>
-                    <th>类型</th>
-                    <th>分类</th>
-                    <th>金额</th>
-                    <th>备注</th>
-                    <th>操作</th>
-                </tr>
-            </thead>
-            <tbody id="billList"></tbody>
-        </table>
-    </div>
-</div>
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Type</th>
+          <th scope="col">Category</th>
+          <th scope="col" class="num">Amount</th>
+          <th scope="col">Note</th>
+          <th scope="col"><span class="visually-hidden" hidden>Actions</span></th>
+        </tr>
+      </thead>
+      <tbody id="billList"></tbody>
+    </table>
+    <p class="empty" id="emptyState" hidden></p>
+  </section>
+</main>
 
 <script>
-let globalShareKey = sessionStorage.getItem("activeBookKey");
-let shareBooks = JSON.parse(localStorage.getItem("shareBillStorage")) || {};
-const dateInput = document.getElementById("billDate");
-const now = new Date();
-dateInput.value = now.toISOString().split("T")[0];
+  const STORE = "shareBillStorage";
 
-// 如果没有密钥，直接打回首页
-if(!globalShareKey || !shareBooks[globalShareKey]){
-    alert("未检测合法账本密钥，返回首页");
+  const TYPE_LABELS = { deposit: "Deposit", spend: "Spend" };
+  const CATEGORY_LABELS = {
+    "screen-share": "Screen share",
+    deposit: "Deposit",
+    valorant: "Valorant",
+    gifting: "Gifting",
+    steam: "Steam",
+    "voice-chat": "Voice chat",
+    "friend-slot": "Friend slot"
+  };
+
+  // 旧版本存的是中文枚举值，读入时统一成英文 slug，历史数据不丢
+  const TYPE_MIGRATION = { "存": "deposit", "扣": "spend" };
+  const CATEGORY_MIGRATION = {
+    "屏享": "screen-share",
+    "存": "deposit",
+    "瓦": "valorant",
+    "送礼": "gifting",
+    steam: "steam",
+    "语聊": "voice-chat",
+    "好友位": "friend-slot"
+  };
+
+  const money = (value) =>
+    Number(value).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+  const globalShareKey = sessionStorage.getItem("activeBookKey");
+  let shareBooks = JSON.parse(localStorage.getItem(STORE)) || {};
+
+  if (!globalShareKey || !shareBooks[globalShareKey]) {
+    alert("No ledger is open in this browser. Taking you back to the key screen.");
     window.location.href = "index.html";
-}
+  }
 
-document.getElementById("currentKey").innerText = globalShareKey;
+  migrate(shareBooks);
+  document.getElementById("currentKey").textContent = globalShareKey;
 
-function saveAllBooks() {
-    localStorage.setItem("shareBillStorage", JSON.stringify(shareBooks));
-}
+  const dateInput = document.getElementById("billDate");
+  dateInput.value = new Date().toISOString().slice(0, 10);
 
-// 退出，清空sessionStorage，返回首页
-function exitBook() {
-    sessionStorage.removeItem("activeBookKey");
-    window.location.href = "index.html";
-}
+  function migrate(books) {
+    let changed = false;
+    Object.values(books).forEach((list) => {
+      (list || []).forEach((bill) => {
+        if (TYPE_MIGRATION[bill.type]) { bill.type = TYPE_MIGRATION[bill.type]; changed = true; }
+        if (CATEGORY_MIGRATION[bill.class]) { bill.class = CATEGORY_MIGRATION[bill.class]; changed = true; }
+      });
+    });
+    if (changed) localStorage.setItem(STORE, JSON.stringify(books));
+  }
 
-function getCurrentBillList() {
+  function saveAllBooks() {
+    localStorage.setItem(STORE, JSON.stringify(shareBooks));
+  }
+
+  function currentList() {
     return shareBooks[globalShareKey] || [];
-}
+  }
 
-function initMonthFilter() {
-    const monthSel = document.getElementById("filterMonth");
-    monthSel.innerHTML = `<option value="">全部月份</option>`;
-    const billArr = getCurrentBillList();
-    const monthSet = new Set();
-    billArr.forEach(item => monthSet.add(item.date.slice(0,7)));
-    Array.from(monthSet).sort().reverse().forEach(m => {
-        const opt = document.createElement("option");
-        opt.value = m;
-        opt.innerText = m;
-        monthSel.appendChild(opt);
-    })
-}
+  function stats(list) {
+    const month = new Date().toISOString().slice(0, 7);
+    let monthIn = 0;
+    let monthOut = 0;
+    let totalIn = 0;
+    let totalOut = 0;
+    list.forEach((bill) => {
+      const amount = Number(bill.money) || 0;
+      if (bill.type === "deposit") {
+        totalIn += amount;
+        if (bill.date.startsWith(month)) monthIn += amount;
+      } else {
+        totalOut += amount;
+        if (bill.date.startsWith(month)) monthOut += amount;
+      }
+    });
+    return { monthIn, monthOut, totalIn, balance: totalIn - totalOut };
+  }
 
-function addBill() {
-    const date = document.getElementById("billDate").value;
+  function syncMonthFilter() {
+    const select = document.getElementById("filterMonth");
+    const previous = select.value;
+    const months = [...new Set(currentList().map((bill) => bill.date.slice(0, 7)))].sort().reverse();
+
+    select.replaceChildren(new Option("All months", ""));
+    months.forEach((month) => select.add(new Option(month, month)));
+    select.value = months.includes(previous) ? previous : "";
+  }
+
+  function render() {
+    syncMonthFilter();
+
+    const month = document.getElementById("filterMonth").value;
+    const type = document.getElementById("filterType").value;
+    let rows = [...currentList()];
+    if (month) rows = rows.filter((bill) => bill.date.startsWith(month));
+    if (type) rows = rows.filter((bill) => bill.type === type);
+    rows.sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : b.id - a.id));
+
+    const body = document.getElementById("billList");
+    body.replaceChildren();
+
+    rows.forEach((bill) => {
+      const tr = document.createElement("tr");
+
+      const dateCell = document.createElement("td");
+      dateCell.className = "date";
+      dateCell.textContent = bill.date;
+
+      const typeCell = document.createElement("td");
+      typeCell.className = "type";
+      typeCell.textContent = TYPE_LABELS[bill.type] || bill.type;
+
+      const catCell = document.createElement("td");
+      catCell.className = "cat";
+      catCell.textContent = CATEGORY_LABELS[bill.class] || bill.class;
+
+      const amountCell = document.createElement("td");
+      amountCell.className = "num";
+      const sign = bill.type === "deposit" ? "+" : "-";
+      const span = document.createElement("span");
+      span.className = bill.type === "deposit" ? "amt--in" : "amt--out";
+      span.textContent = sign + money(bill.money);
+      amountCell.appendChild(span);
+
+      const noteCell = document.createElement("td");
+      noteCell.className = "note";
+      noteCell.textContent = bill.note || "—";
+
+      const actionCell = document.createElement("td");
+      actionCell.className = "actions";
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.className = "del";
+      remove.textContent = "Delete";
+      remove.setAttribute("aria-label", "Delete entry from " + bill.date);
+      remove.addEventListener("click", () => deleteEntry(bill.id));
+      actionCell.appendChild(remove);
+
+      tr.append(dateCell, typeCell, catCell, amountCell, noteCell, actionCell);
+      body.appendChild(tr);
+    });
+
+    const empty = document.getElementById("emptyState");
+    const total = currentList().length;
+    if (rows.length === 0) {
+      empty.hidden = false;
+      empty.textContent = total === 0
+        ? "No entries yet. The first deposit or spend lands here, and everyone with the key sees it."
+        : "No entries match these filters. Clear them to see the whole book.";
+    } else {
+      empty.hidden = true;
+    }
+
+    const summary = stats(currentList());
+    document.getElementById("income").textContent = money(summary.monthIn);
+    document.getElementById("monthPay").textContent = money(summary.monthOut);
+    document.getElementById("allSave").textContent = money(summary.totalIn);
+    document.getElementById("allSurplus").textContent = money(summary.balance);
+
+    document.getElementById("finding").textContent = finding(summary);
+  }
+
+  function finding(summary) {
+    const total = currentList().length;
+    if (total === 0) return "An empty book. Add the first entry and the balance starts moving.";
+    const gap = summary.monthIn - summary.monthOut;
+    const monthName = new Date().toLocaleString("en-US", { month: "long" });
+    if (gap === 0) return "Deposits and spending are level in " + monthName + ".";
+    if (gap > 0) return "Deposits are " + money(gap) + " ahead of spending in " + monthName + ".";
+    return "Spending is " + money(-gap) + " ahead of deposits in " + monthName + ". The balance is dropping.";
+  }
+
+  function addEntry(event) {
+    event.preventDefault();
+    const date = dateInput.value;
     const type = document.getElementById("billType").value;
-    const cls = document.getElementById("billClass").value;
-    const money = Number(document.getElementById("billMoney").value);
+    const category = document.getElementById("billClass").value;
+    const amount = Number(document.getElementById("billMoney").value);
     const note = document.getElementById("billNote").value.trim();
-    if(!date || !money || money <= 0) {
-        alert("请填写合法日期与金额");
-        return;
+    const noteEl = document.getElementById("entryNote");
+
+    if (!date || !(amount > 0)) {
+      noteEl.textContent = "A date and an amount above zero are required.";
+      return;
     }
-    const newBill = {
-        id: Date.now(),
-        date,
-        type,
-        class: cls,
-        money,
-        note
-    }
-    shareBooks[globalShareKey].push(newBill);
+
+    shareBooks[globalShareKey].push({ id: Date.now(), date, type, class: category, money: amount, note });
     saveAllBooks();
-    renderPage();
+    noteEl.textContent = "";
     document.getElementById("billMoney").value = "";
     document.getElementById("billNote").value = "";
-}
+    render();
+    document.getElementById("billMoney").focus();
+  }
 
-function delBill(billId) {
-    const list = getCurrentBillList();
-    shareBooks[globalShareKey] = list.filter(item => item.id !== billId);
+  function deleteEntry(id) {
+    shareBooks[globalShareKey] = currentList().filter((bill) => bill.id !== id);
     saveAllBooks();
-    renderPage();
-}
+    render();
+  }
 
-function calcStats(billList){
-    const curMonth = new Date().toISOString().slice(0,7);
-    let monthIn = 0, monthOut = 0, totalIn=0, totalOut=0;
-    billList.forEach(b=>{
-        const num = Number(b.money);
-        if(b.type === "存"){
-            totalIn += num;
-            if(b.date.startsWith(curMonth)) monthIn += num;
-        }else{
-            totalOut += num;
-            if(b.date.startsWith(curMonth)) monthOut += num;
-        }
-    })
-    return {
-        monthIn,
-        monthOut,
-        totalIn,
-        surplus: totalIn - totalOut
-    }
-}
+  document.getElementById("entryForm").addEventListener("submit", addEntry);
+  document.getElementById("leaveBtn").addEventListener("click", () => {
+    sessionStorage.removeItem("activeBookKey");
+    window.location.href = "index.html";
+  });
+  document.getElementById("filterMonth").addEventListener("change", render);
+  document.getElementById("filterType").addEventListener("change", render);
 
-function renderPage() {
-    initMonthFilter();
-    const filterMonth = document.getElementById("filterMonth").value;
-    const filterType = document.getElementById("filterType").value;
-    let showList = [...getCurrentBillList()];
-    if(filterMonth) showList = showList.filter(i => i.date.startsWith(filterMonth));
-    if(filterType) showList = showList.filter(i => i.type === filterType);
-
-    const tbody = document.getElementById("billList");
-    tbody.innerHTML = "";
-    showList.forEach(item => {
-        const tr = document.createElement("tr");
-        const moneyHtml = item.type === "存"
-            ? `<span style="color:#16a34a">+${item.money.toFixed(2)}</span>`
-            : `<span style="color:#dc2626">-${item.money.toFixed(2)}</span>`;
-        tr.innerHTML = `
-            <td>${item.date}</td>
-            <td>${item.type}</td>
-            <td>${item.class}</td>
-            <td>${moneyHtml}</td>
-            <td>${item.note || "无"}</td>
-            <td><button class="app-btn app-btn--danger" onclick="delBill(${item.id})">删除</button></td>
-        `;
-        tbody.appendChild(tr);
-    })
-
-    const allBills = getCurrentBillList();
-    const stat = calcStats(allBills);
-    document.getElementById('income').innerText = stat.monthIn.toFixed(2);
-    document.getElementById('monthPay').innerText = stat.monthOut.toFixed(2);
-    document.getElementById('allSave').innerText = stat.totalIn.toFixed(2);
-    document.getElementById('allSurplus').innerText = stat.surplus.toFixed(2);
-}
-
-document.getElementById("filterMonth").onchange = renderPage;
-document.getElementById("filterType").onchange = renderPage;
-
-// 页面加载完渲染
-renderPage();
+  render();
 </script>
 </body>
 </html>
