@@ -163,6 +163,13 @@
   .switch button:hover { background: var(--soft); }
   .switch button[aria-pressed="true"] { background: var(--ink); color: #fff; }
 
+/* on the indigo panel the control inverts, so it stays in the same family */
+.switchpanel.is-out .switch { background: rgba(255, 255, 255, 0.16); }
+.switchpanel.is-out .switch button { color: rgba(255, 255, 255, 0.78); }
+.switchpanel.is-out .switch button:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+.switchpanel.is-out .switch button[aria-pressed="true"] { background: #ffffff; color: var(--accent); }
+.switchpanel.is-out .switch button[aria-pressed="true"]:hover { background: rgba(255, 255, 255, 0.9); }
+
   /* ---------- home: the board ---------- */
 
   .mosaic { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px; }
