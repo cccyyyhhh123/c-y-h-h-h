@@ -1,6 +1,6 @@
 # Ledger — one book, one balance
 
-A shared expense ledger for a household or a crew. Everyone types the same six
+A shared expense book for a household or a crew. Everyone types the same six
 digits and writes into the same running total. No account, no server, nothing
 leaves the browser.
 
@@ -12,54 +12,50 @@ leaves the browser.
 
 | File | What it is |
 | --- | --- |
-| `index.html` | Home: the hero, four steps, the deposit/spend switch, what the screen is made of, and the open-a-book dialog |
-| `pricing.html` | Pricing: three plans, the comparison table and five questions |
-| `contact.html` | Contact and about: the form, what the site is built on, links to the other pages |
+| `index.html` | Home: dark hero over a video glow, a mockup of the ledger screen, four steps |
+| `pricing.html` | Pricing: three plans in an accordion, each one driving the preview panel; comparison table and five questions |
+| `contact.html` | Contact: one field and one button, the facts about the book, three columns of links |
 | `book.html` | The ledger screen: add a line, filter by month or type, delete a mistake |
 
-Every page carries the same navigation bar and footer. Open `index.html` and
-press **Open a ledger** — a six-digit key is made for you and the ledger opens
-with it.
+Every page carries its own top bar and links to the other three. Open
+`index.html` and press **Open a ledger** — a six-digit key is made for you and
+the ledger opens with it.
 
 ## Identity
 
 - `images/og-image.jpg` — 1200 × 630, the poster share cards show
 - `images/apple-touch-icon.png` — 180 × 180
 - `images/favicon-32.png` — 32 × 32 (plus `favicon-192.png` for Android)
-- the Open Graph and Twitter tags sit in every page's `<head>`, pointing at the
-  live address `https://cccyyyhhh123.github.io/c-y-h-h-h/`
+- the Open Graph and Twitter tags sit in every page's `<head>`
 
-## How it works
+## The look
 
-- A key is six digits. Anyone holding it opens the same book, because the
-  entries are read from `localStorage`.
-- `book.html` always opens a book: the key you arrived with, else the last book
-  saved in this browser, else a fresh one.
-- An entry is one line — date, type (deposit / spend), category, amount, note.
-  The balance and the monthly totals are computed from the lines, never typed in.
-- Books written by the earlier build still read: their values are mapped to the
-  English slugs on load.
+One system across the four pages, kept in each file's own `<style>` block so
+every page stands alone:
 
-## Run it
+- ground `#0d0d12`, panels `#0f0f15`, hairlines `rgba(255,255,255,0.07)`
+- one accent: purple `#a855f7` (hover `#9333ea`)
+- type: Inter for text, Plus Jakarta Sans for headings
+- corners: 16px panels, 10px controls, 6px chips, 999px pills
 
-```bash
-# open the file directly
-start index.html          # Windows
-open index.html           # macOS
+## Motion
 
-# or serve the folder, so relative links behave like production
-python -m http.server 8000
-# http://localhost:8000/
-```
+- `index.html` — the balance in the mockup counts up once, when it scrolls into view
+- `pricing.html` — picking a plan swaps the preview and grows the three usage meters
+- `contact.html` — the rows fade up in a stagger; the form says “Sent!” for 3 s, then resets
+- `book.html` — the balance counts from its old value to the new one on every change
 
-Live on GitHub Pages: **Settings → Pages → Deploy from a branch → `main` /
-`/ (root)`**. `index.html` becomes the site root; `pricing.html`, `contact.html`
-and `book.html` follow the same relative paths.
+All of it is shortened or skipped under `prefers-reduced-motion: reduce`.
 
-## Structure
+## Files
 
 ```
-index.html · pricing.html · contact.html · book.html
-style.css            one stylesheet for the three content pages
-images/              og-image.jpg · apple-touch-icon.png · favicon-32.png · favicon-192.png
+index.html  pricing.html  contact.html  book.html
+images/     favicon, icons, OG image, screenshots
+vendor/     anime.min.js (3.2.2, MIT) — self-hosted, so the CDN cannot fail
 ```
+
+## Credits
+
+Made by **Yuhan.Cai**. Icons are drawn by hand as inline SVG; the type is Inter
+and Plus Jakarta Sans from Google Fonts; Anime.js is MIT (Julian Garnier).
