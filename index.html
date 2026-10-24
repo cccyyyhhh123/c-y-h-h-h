@@ -109,7 +109,12 @@
 
   /* ---------- hero ---------- */
   .hero { position: relative; padding: 60px 24px 0; text-align: center; overflow: hidden; }
-  .hero__media { position: absolute; inset: 0; z-index: 0; }
+  .hero__media {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 8%, rgba(124, 58, 237, 0.5) 0%, rgba(76, 29, 149, 0.28) 38%, transparent 72%),
+      linear-gradient(180deg, #0b0713 0%, #080809 62%, #080808 100%);
+  }
   .hero__media video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
   .hero__fade { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, rgba(8, 8, 8, 0.4), #080808); }
   .hero__glow {
@@ -118,6 +123,7 @@
     background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.25) 0%, rgba(79, 70, 229, 0.12) 40%, transparent 70%);
   }
   .hero__inner { position: relative; z-index: 10; }
+  @media (max-width: 767px) { .br-wide { display: none; } }
   .eyebrow {
     display: inline-block; margin-bottom: 24px; padding: 5px 14px;
     background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1);
@@ -277,12 +283,24 @@
     .rail { display: none; }
     .main { padding: 24px; }
   }
+  /* a phone does not need a 20-second loop: the gradient and the glow carry it,
+     and mobile data does not pay for the video */
+  @media (max-width: 640px) {
+    .hero__media video { display: none; }
+  }
+  @media (prefers-reduced-data: reduce) {
+    .hero__media video { display: none; }
+  }
+
   @media (max-width: 640px) {
     .steps { grid-template-columns: 1fr; }
     .chrome { padding: 0 16px; }
     .url { width: auto; flex: 1; margin: 0 12px; padding: 8px 14px; }
     .chrome__btn, .url span:last-child { display: none; }
     .main__head { flex-direction: column; }
+    .main__tools { flex-wrap: wrap; }
+    .search { flex: 1 1 130px; min-width: 0; }
+    .newtask { flex: none; }
     .balance strong { font-size: 36px; }
     .how { padding-top: 80px; }
     .end { margin-top: 80px; }
@@ -323,8 +341,7 @@
 <main>
   <section class="hero">
     <div class="hero__media" aria-hidden="true">
-      <video autoplay loop muted playsinline preload="metadata"
-        poster="images/og-image.jpg">
+      <video autoplay loop muted playsinline preload="metadata">
         <source src="https://cdn.jiro.build/Velara/the-purple-neon-concentric-circles-pulse-and-radia.mp4" type="video/mp4">
       </video>
       <div class="hero__fade"></div>
@@ -333,7 +350,7 @@
 
     <div class="hero__inner">
       <span class="eyebrow">✦ <b>Shared</b> expense book</span>
-      <h1>The best way to keep<br>one balance together.</h1>
+      <h1>The best way to keep <br class="br-wide">one balance together.</h1>
       <p class="hero__sub">
         A shared book for money a group puts in and spends. Everyone types the same six
         digits, so everyone writes to the same balance — no account, no server, nothing
