@@ -158,6 +158,14 @@
   .input:hover { border-color: rgba(255, 255, 255, 0.16); }
   .input:focus-visible { outline: none; border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15); }
   .input--num { font-variant-numeric: tabular-nums; }
+  .input--date { font-variant-numeric: tabular-nums; letter-spacing: 0.01em; }
+  /* the real picker sits on top, invisible: tap opens the calendar, the field
+     itself always reads in ISO so the page stays in one language */
+  .datefield { position: relative; display: block; }
+  .datefield .input--calendar {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; border: 0; padding: 0; cursor: pointer;
+  }
 
   /* the interactive hover button, now the page's one accent */
   .hbtn {
@@ -312,7 +320,11 @@
     <form class="entry" id="entryForm">
       <label class="field">
         <span>Date</span>
-        <input class="input" type="date" id="billDate" required>
+        <span class="datefield">
+          <input class="input input--date" type="text" id="billDate" placeholder="YYYY-MM-DD"
+                 inputmode="numeric" maxlength="10" autocomplete="off" required>
+          <input class="input--calendar" type="date" id="billDatePicker" tabindex="-1" aria-hidden="true">
+        </span>
       </label>
       <label class="field">
         <span>Type</span>
@@ -433,7 +445,23 @@
   );
 
   const dateInput = document.getElementById("billDate");
-  dateInput.value = new Date().toISOString().slice(0, 10);
+  const datePicker = document.getElementById("billDatePicker");
+  const today = new Date().toISOString().slice(0, 10);
+  dateInput.value = today;
+  if (datePicker) {
+    datePicker.value = today;
+    /* picking a day in the native calendar writes ISO into the visible field */
+    datePicker.addEventListener("change", () => {
+      if (datePicker.value) dateInput.value = datePicker.value;
+    });
+  }
+  /* typed input is normalised, so 2026/10/7 becomes 2026-10-07 */
+  dateInput.addEventListener("blur", () => {
+    const match = dateInput.value.trim().replace(/[./]/g, "-").match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+    if (!match) return;
+    dateInput.value = match[1] + "-" + match[2].padStart(2, "0") + "-" + match[3].padStart(2, "0");
+    if (datePicker) datePicker.value = dateInput.value;
+  });
 
   function migrate(books) {
     let changed = false;
@@ -615,8 +643,8 @@
     const note = document.getElementById("billNote").value.trim();
     const noteEl = document.getElementById("entryNote");
 
-    if (!date || !(amount > 0)) {
-      noteEl.textContent = "A date and an amount above zero are required.";
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !(amount > 0)) {
+      noteEl.textContent = "A date (YYYY-MM-DD) and an amount above zero are required.";
       return;
     }
 
